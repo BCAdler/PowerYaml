@@ -1,9 +1,13 @@
 function Validate-File([string] $file) {
     $file_exists = Test-Path $file
+    
     if (-not $file_exists) {
         "ERROR: '$file' does not exist" | Write-Error
         return $false 
     }
+
+    # If file exists, convert $file into a Full path name, as it may be given relatively
+    $file = (Get-Item -Path $file).FullName
 
     $lines_in_file = [System.IO.File]::ReadAllLines($file)
     $line_tab_detected = Detect-Tab $lines_in_file

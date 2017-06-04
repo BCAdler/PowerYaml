@@ -6,6 +6,9 @@ function Load-YamlDotNetLibraries([string] $dllPath, $shadowPath = "$($env:TEMP)
 }
 
 function Get-YamlStream([string] $file) {
+    # Convert $file into Full Path as it may be given relatively
+    $file = (Get-Item -Path $file).FullName
+
     $streamReader = [System.IO.File]::OpenText($file)
     $yamlStream = New-Object YamlDotNet.RepresentationModel.YamlStream
 
